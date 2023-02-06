@@ -9,15 +9,17 @@ Module.register("MMM-NFTcollections", {
   },
 
   getStyles: function () {
-	return ["MMM-NFTcollections_styles.css"];
+	  return ["MMM-NFTcollections_styles.css"];
   },
 
   start: function () {
-	Log.info("Starting module: " + this.name);
-	this.collectionData = {};
-	this.baseURL = `https://${this.config.network}.g.alchemy.com/v2/${this.config.apiKey}/getContractMetadata?contractAddress=${this.config.contractAddress}`;
-	this.sendSocketNotification("GET_COLLECTION_DATA", this.baseURL);
-	this.scheduleUpdate();
+      Log.info("Starting module: " + this.name);
+
+      this.collectionData = {};
+      this.baseURL = `https://${this.config.network}.g.alchemy.com/v2/${this.config.apiKey}/getContractMetadata?contractAddress=${this.config.contractAddress}`;
+      this.sendSocketNotification("GET_COLLECTION_DATA", this.baseURL);
+
+      this.scheduleUpdate();
   },
 
   scheduleUpdate: function() {
@@ -28,11 +30,13 @@ Module.register("MMM-NFTcollections", {
 
   socketNotificationReceived: function(notification, payload) {
   	if(notification === "COLLECTION_DATA_RESULTS") {
-		this.collectionData = payload;
-		this.loaded = true;
-		console.log("Collection data received: " + payload);
-		this.updateDom();
-	}
+        this.collectionData = payload;
+        this.loaded = true;
+
+        console.log("Collection data received: " + payload);
+
+        this.updateDom();
+	  }
   },
 
   // Override dom generator.
@@ -42,14 +46,14 @@ Module.register("MMM-NFTcollections", {
 
     // If no collection data, display loading message
     if (!this.loaded) {
-	  wrapper.innerHTML = "Getting collection data...";
-	  wrapper.classList.add("bright", "light", "small");
-	  return wrapper;
-	}
+        wrapper.innerHTML = "Getting collection data...";
+        wrapper.classList.add("bright", "light", "small");
+        return wrapper;
+    }
 
     // Display collection image
-	const image = document.createElement("img");
-	image.className = "margin-right-10 border-radius-8";
+    const image = document.createElement("img");
+    image.className = "margin-right-10 border-radius-8";
     image.src = this.collectionData.contractMetadata.openSea.imageUrl;
     image.width = 80;
     image.height = 80;
@@ -61,19 +65,19 @@ Module.register("MMM-NFTcollections", {
 
     // Display collection name
     const collectionContainer = document.createElement("div");
-	collectionContainer.className = "flex-space-between width-full";
+    collectionContainer.className = "flex-space-between width-full";
 
-	const collection = document.createElement("span");
-	collection.className = "white margin-right-10";
-	const collectionText = document.createTextNode("Collection:");
-	collection.appendChild(collectionText);
+    const collection = document.createElement("span");
+    collection.className = "white margin-right-10";
+    const collectionText = document.createTextNode("Collection:");
+    collection.appendChild(collectionText);
 
     const collectionName = document.createElement("span");
     const collectionNameText = document.createTextNode(this.collectionData.contractMetadata.name)
     collectionName.appendChild(collectionNameText);
 
-  	collectionContainer.appendChild(collection);
-  	collectionContainer.appendChild(collectionName);
+    collectionContainer.appendChild(collection);
+    collectionContainer.appendChild(collectionName);
 
     details.appendChild(collectionContainer);
 
@@ -83,13 +87,13 @@ Module.register("MMM-NFTcollections", {
 
     const status = document.createElement("span");
     status.className = "white";
-	  const statusValue = this.collectionData.contractMetadata.totalSupply === this.config.maxSupply ? "Sold out:" : "Minting now:";
+    const statusValue = this.collectionData.contractMetadata.totalSupply === this.config.maxSupply ? "Sold out:" : "Minting now:";
     const statusText = document.createTextNode(statusValue);
 
-	const minted = document.createElement("span");
+    const minted = document.createElement("span");
     const mintedText = document.createTextNode(
-    	`${this.collectionData.contractMetadata.totalSupply} / ${this.config.maxSupply}`
-	);
+      `${this.collectionData.contractMetadata.totalSupply} / ${this.config.maxSupply}`
+    );
 
     status.appendChild(statusText);
     minted.appendChild(mintedText);

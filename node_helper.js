@@ -3,8 +3,8 @@ const fetch = require("node-fetch");
 
 module.exports = NodeHelper.create({
 	start: function() {
-        console.log("Starting node_helper for: MMM-NFTcollections");
-    },
+			console.log("Starting node_helper for: MMM-NFTcollections");
+	},
 
 	getCollectionData: function (url) {
 		fetch(url)
@@ -18,8 +18,9 @@ module.exports = NodeHelper.create({
 
 	socketNotificationReceived: function(notification, url) {
 		console.log("MMM-NFTcollections: in helper. Getting collection data...");
+
 		if(notification === "GET_COLLECTION_DATA") {
 			this.getCollectionData(url);
 		}
-    }
+	}
 });
