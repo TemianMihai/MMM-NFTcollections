@@ -83,13 +83,12 @@ Module.register("MMM-NFTcollections", {
 
     const status = document.createElement("span");
     status.className = "white";
-	const statusValue = this.collectionData.contractMetadata.totalSupply === this.config.maxSupply ? "Sold out:" : "Minting now:";
+	  const statusValue = this.collectionData.contractMetadata.totalSupply === this.config.maxSupply ? "Sold out:" : "Minting now:";
     const statusText = document.createTextNode(statusValue);
 
 	const minted = document.createElement("span");
-	const mintedValueEmoji = this.collectionData.contractMetadata.totalSupply === this.config.maxSupply ? "🎉" : "🚀";
     const mintedText = document.createTextNode(
-    	`${this.collectionData.contractMetadata.totalSupply} / ${this.config.maxSupply} ${mintedValueEmoji}`
+    	`${this.collectionData.contractMetadata.totalSupply} / ${this.config.maxSupply}`
 	);
 
     status.appendChild(statusText);
